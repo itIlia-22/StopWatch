@@ -1,0 +1,34 @@
+package com.example.stopwatch.stopwatchsloi.model
+
+import com.example.stopwatch.stopwatchsloi.viewmodel.StopwatchState
+
+class StopwatchStateCalculator(
+    private val timestampProvider: TimestampProvider,
+    private val elapsedTimeCalculator: ElapsedTimeCalculator,
+
+    ) {
+
+
+
+    fun calculateRunningState(oldState: StopwatchState): StopwatchState.Running =
+        when (oldState) {
+            is StopwatchState.Running -> oldState
+            is StopwatchState.Paused -> {
+                StopwatchState.Running(
+                    startTime = timestampProvider.getMilliseconds(),
+                    elapsedTime = oldState.elapsedTime
+                )
+            }
+
+
+        }
+
+    fun calculatePausedState(oldState: StopwatchState): StopwatchState.Paused =
+        when (oldState) {
+            is StopwatchState.Paused -> oldState
+            is StopwatchState.Running -> {
+                val elapsedTime = elapsedTimeCalculator.calculator(oldState)
+                StopwatchState.Paused(elapsedTime = elapsedTime)
+            }
+        }
+}
