@@ -25,10 +25,10 @@ class StopwatchStateCalculator(
 
     fun calculatePausedState(oldState: StopwatchState): StopwatchState.Paused =
         when (oldState) {
-            is StopwatchState.Paused -> oldState
             is StopwatchState.Running -> {
                 val elapsedTime = elapsedTimeCalculator.calculator(oldState)
                 StopwatchState.Paused(elapsedTime = elapsedTime)
             }
+            is StopwatchState.Paused -> oldState
         }
 }

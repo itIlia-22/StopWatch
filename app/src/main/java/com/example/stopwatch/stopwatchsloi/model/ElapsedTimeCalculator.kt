@@ -9,7 +9,7 @@ class ElapsedTimeCalculator(
     fun calculator(state: StopwatchState.Running): Long {
         val currentTime = timestampProvider.getMilliseconds()
         val timePassedSinceStart =
-            if (currentTime > state.startTime) currentTime - state.elapsedTime else 0
+            if (currentTime > state.startTime) currentTime - state.startTime else 0
         return timePassedSinceStart + state.elapsedTime
     }
 }
